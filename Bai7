@@ -1,0 +1,65 @@
+#include<stdio.h>
+#include<conio.h>
+#include<windows.h>
+#include<math.h>
+int Tong1(int n){
+	if(n==1) return (1-5)*(1-5);
+	else{
+		return Tong1(n-1)+n*n;
+	}
+}
+double Tong2(int n){
+	double sum2=0;
+	for(int i=1;i<=n;i++){
+		sum2=sum2+cos(double(i))*cos(double(i));
+	}
+	return sum2;
+}
+double Tong3(int n){
+	/*double sum3=0;
+	for(int i=1;i<=n;i++){
+		sum3=sum3+sin(double(i))*sin(double(i));
+	}
+	return sum3;*/
+	if(n==1) return (sin(double(1))*sin(double(1)));
+	else{
+		return Tong3(n-1)+sin(double(n))*sin(double(n));
+	}
+}
+void Nhap(int *n){
+	printf("Nhap vao n: ");
+	scanf("%d", n);
+}
+int main(){
+	int n;
+	int S1;
+	double S2, S3;
+	int chon;
+	do{
+		printf("\n1. Tinh tong ham (x-5)*(x-5) tu 1 den n\n");
+		printf("2. Tinh tong ham cos(x)^2 tu 1 den n\n");
+		printf("3. Tinh tong ham sin(x)^2 tu 1 den n\n");
+		printf("4. Thoat\n");
+		printf("Moi ban chon: ");
+		scanf("%d", &chon);
+		switch(chon){
+			case 1:
+				Nhap(&n);
+				S1=Tong1(n);
+				printf("Tong1=%d", S1);
+				break;
+			case 2:
+				Nhap(&n);
+				S2=Tong2(n);
+				printf("Tong2=%.3lf", S2);
+				break;
+			case 3:
+				Nhap(&n);
+				S3=Tong3(n);
+				printf("Tong3=%.3lf", S3);
+				break;
+			case 4: return 0;
+			default: break;
+		}
+	}while(1);
+}
