@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+struct SinhVien{
+	char hoTen[32];
+	int tuoi;
+	char lop[20];
+	
+}; 
+int n;
+SinhVien sv[100];
+void nhapDS(){
+	for(int i =0;i<n;i++){
+		printf("Nhap sinh vien thu %d\n", i+1);
+		printf("Ho ten: ");
+		fflush(stdin);
+		gets(sv[i].hoTen);
+		printf("Tuoi: ");
+		scanf("%d", &sv[i].tuoi);
+		printf("Lop: ");
+		fflush(stdin);
+		gets(sv[i].lop);
+	}
+	
+}
+void inDS(){
+	printf("\t\t\tDANH SACH SINH VIEN\n");
+	printf("___________________________________________________________\n");
+	printf("|Ho ten                        |Tuoi      |Lop            |\n");
+	printf("|______________________________|__________|_______________|\n");
+	for(int i=0;i<n;i++){
+		printf("|%-30s|%-10d|%-15s|\n", sv[i].hoTen, sv[i].tuoi, sv[i].lop);
+		printf("___________________________________________________________\n");
+	}
+}
+void searchName(){
+	char name[32];
+	printf("Nhap ten sinh vien can tim: ");
+	fflush(stdin);
+	gets(name);
+	for(int i=0;i<n;i++){
+		if(strcmp(sv[i].hoTen,name)==0){
+			printf("_____________________________________________________\n");
+			printf("|%-30s|%-10d|%-15s|\n", sv[i].hoTen, sv[i].tuoi, sv[i].lop);
+			printf("|_____________________________________________________|\n");
+		}
+		
+	}
+}
+int main(){
+	printf("Nhap so luong sinh vien: ");
+	scanf("%d", &n);
+	int chon;
+	do{
+		printf("1. Nhap danh sach sinh vien\n");
+		printf("2. Hien thi danh sach nsinh vien\n");
+		printf("3. Tim kiem sinh vien theo ten\n");
+		printf("4. Thoat\n");
+		printf("Moi ban chon: ");
+		scanf("%d", &chon);
+		switch(chon){
+			case 1:
+				nhapDS();
+				break;
+			case 2:
+				inDS();
+				break;
+			case 3:
+				searchName();
+				break;
+			case 4:
+				return 0;
+			default:
+				break;			
+		}
+	}while(1);
+}
