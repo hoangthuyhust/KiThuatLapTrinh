@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#include<conio.h>
+void he2(int n){
+	int arr[1000];
+	int i=0;
+	while(n>0){
+		arr[i]=n%2;
+		n=n/2;
+		i++;
+		
+	}
+	for(int j=i-1;j>=0;j--){
+		printf("%d", arr[j]&1);
+	}
+}
+void he8(int n){
+	int arr[1000];
+	int i=0;
+	while(n>0){
+		arr[i]=n%8;
+		n=n/8;
+		i++;
+		
+	}
+	for(int j=i-1;j>=0;j--){
+		printf("%d", arr[j]);
+	}
+}
+
+int main(){
+	int n;
+	int chon;
+	do{
+		printf("\n1. Nhap vao n\n");
+		printf("2. Chuyen sang he 2\n");
+		printf("3. Chuyen sang he 8\n");
+		printf("4. Thoat\n");
+		printf("Moi ban chon: ");
+		scanf("%d", &chon);
+		switch(chon){
+			case 1:
+				printf("Nhap vao n: ");
+				scanf("%d", &n);
+				break;
+			case 2:
+				he2(n);
+				break;
+			case 3:
+				he8(n);
+				break;
+			case 4:
+				return 0;
+			default:
+				break;
+				
+		}
+	}while(1);
+	
+}
