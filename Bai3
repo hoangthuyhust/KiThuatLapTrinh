@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+void nhap(int a[100], int n){
+	for(int i=0;i<n;i++){
+		scanf("%d", &a[i]);
+	}
+}
+int max(int a[100], int n){
+	if(n==0){
+		return -1;
+	}
+	if(n==1){
+		return a[0];
+	}
+	else{
+		if(a[n-1]>max(a,n-1)){
+			return a[n-1];
+		}
+		else{
+			return max(a, n-1);
+		}
+	}
+}
+int timmax(int a[100], int n){
+	int imax=0;
+	for(int i=1;i<n;i++)
+	if(a[i]>a[imax]) imax=i;
+	return imax;
+}
+void swap(int &a, int &b){
+	int temp=a;
+	a=b;
+	b=temp;
+}
+void sapxep(int a[100], int n){
+	if(n==1) return;
+	else{
+		int x=timmax(a,n);
+		swap(a[n-1], a[x]);
+	 	sapxep(a, n-1);
+	}
+	
+}
+int main(){
+	int n;
+	int a[100];
+	int chon;
+	do{
+		printf("1. Nhap vao day so\n");
+		printf("2. Tim max\n");
+		printf("3. Sap xep theo thu tu tang dan\n");
+		printf("4. Thoat\n");
+		printf("Moi ban chon: ");
+		scanf("%d", &chon);
+		switch(chon){
+			case 1:
+				printf("\nNhap vao n:\n");
+				scanf("%d", &n);
+				printf("Nhap vao day so:");
+				nhap(a,n);
+				break;
+			case 2:
+				printf("MAX=%d", max(a,n));
+				break;
+			case 3:
+				sapxep(a,n);
+				for(int i=0;i<n;i++){
+					printf("%d\t", a[i]);
+				}
+				break;
+			case 4:
+				return 0;
+			default:
+				break;
+		}
+	}while(1);
+	
+}
