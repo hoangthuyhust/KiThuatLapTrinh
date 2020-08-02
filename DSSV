@@ -1,0 +1,289 @@
+#include<stdio.h>
+#include<string.h>
+#include<malloc.h>
+#include<conio.h>
+#include<math.h>
+typedef struct{
+	char hoTen[32];
+	int Tuoi;
+	char Lop[32];
+}SinhVien;
+struct NODE{
+	SinhVien Data;
+	struct NODE *Next;
+};
+typedef struct NODE Node;
+typedef struct{
+	Node *head;
+	Node *tail;
+}list;
+int creatList(list &l){
+	l.head=l.tail=NULL;
+}
+Node *getNode(){
+	Node *p;
+	p=(Node*)malloc(sizeof(Node));
+	if(p==NULL){
+		printf("\nLoi cap phat bo nho!");
+		return NULL;
+	}
+	else{
+		printf("\nHo ten: ");
+		fflush(stdin);
+		gets(p->Data.hoTen);
+		printf("\nTuoi: ");
+		scanf("%d", &p->Data.Tuoi);
+		printf("\nLop: ");
+		fflush(stdin);
+		gets(p->Data.Lop);
+	}
+	p->Next=NULL;
+	return p;
+}
+void AddHead(list &l,Node *p){
+	if(l.head==NULL){
+		l.head=l.tail=p;
+	}
+	else{
+		p->Next=l.head;
+		l.head=p;
+	}
+}
+void AddTail(list &l, Node *p){
+	if(l.head==NULL){
+		l.head=l.tail=p;
+	}
+	else{
+		l.tail->Next=p;
+		l.tail=p;
+	}
+}
+void AddNewList(list &l){
+	Node *p;
+	p=(Node*)malloc(sizeof(Node));
+	int n;
+	l.head=l.tail=NULL;
+	printf("\nNhap so luong sinh vien: ");
+	scanf("%d", &n);
+	for(int i=0;i<n;i++){
+		printf("\nNhap sinh vien thu %d", i+1);
+		p=getNode();
+		//AddHead(l,p);
+		AddTail(l,p);
+	}
+}
+void PrintList(list l){
+	Node *p;
+	p=l.head;
+	printf("________________________________________________\n");
+	printf("|Ho ten                   |Tuoi      |Lop       |\n");
+	printf("|_________________________|__________|__________|\n");
+	while(p!=NULL){
+		printf("|%-25s|%-10d|%-10s|\n", p->Data.hoTen, p->Data.Tuoi, p->Data.Lop);
+		printf("|_________________________|__________|__________|\n");
+		p=p->Next;
+	}
+}
+void searchByName(list &l){
+	Node *p;
+	p=(Node*)malloc(sizeof(Node));
+	p=l.head;
+	char name[32];
+	printf("\nNhap ten sinh vien can tim: ");
+	fflush(stdin);
+	gets(name);
+	while(p!=NULL){
+		if(strcmp(p->Data.hoTen,name)==0){
+			printf("|%-25s|%-10d|%-10s|\n", p->Data.hoTen, p->Data.Tuoi, p->Data.Lop);
+			printf("|_________________________|__________|__________|\n");
+		}
+		p=p->Next;
+	}
+	if(p==NULL){
+		printf("\nKhong tim thay sinh vien %s", name);
+	}
+}
+void editList(list &l){
+	Node *p;
+	char name[32];
+	printf("\nNhap ten sinh vien can sua: ");
+	fflush(stdin);
+	gets(name);
+	for(p=l.head;p!=NULL;p=p->Next){
+		if(strcmp(name, p->Data.hoTen)==0){
+			printf("\nMoi ban nhap lai: ");
+			printf("\nHo ten: ");
+			fflush(stdin);
+			gets(p->Data.hoTen);
+			printf("\nTuoi: ");
+			scanf("%d", &p->Data.Tuoi);
+			printf("\nLop: ");
+			fflush(stdin);
+			gets(p->Data.Lop);
+		}
+	}
+}
+void insertList(list &l){
+	Node *p;
+	p=l.head;
+	Node *q;
+	Node *t;
+	t=(Node*)malloc(sizeof(Node));
+	int n;
+	int i=1;
+	printf("\nNhap vi tri muon chen: ");
+	scanf("%d", &n);
+	if(n==1){
+		p=getNode();
+		p->Next=l.head;
+		l.head=p;
+	}
+	else{
+		while(i<(n-1)){
+			p=p->Next;
+			i++;
+			if(p==NULL){
+				printf("\nVi tri chen khong hop le!");
+				return;
+			}
+		}
+		if(p->Next==NULL){
+			t=getNode();
+			p->Next=t;
+			t->Next=NULL;
+		}
+		else{
+			t=getNode();
+			q=p->Next;
+			p->Next=t;
+			t->Next=q;
+		}
+	}
+}
+void deleteHead(list &l){
+	if(l.head==NULL){
+		return;
+	}
+	Node *p=l.head;
+	l.head=l.head->Next;
+	delete p;
+}
+void deleteTail(list &l){
+	if(l.head==NULL){
+		return;
+	}
+	if(l.head->Next==NULL){
+		deleteHead(l);
+		return;
+	}
+	for(Node *p=l.head; p!=NULL; p=p->Next){
+		if(p->Next==l.tail){
+			delete l.tail;
+			p->Next=NULL;
+			l.tail=p;
+			return;
+		}
+	}
+}
+void deleteNode(list &l, char name[32]){
+	if(l.head==NULL){
+		return;
+	}
+	if(strcmp(l.head->Data.hoTen,name)==0){
+		deleteHead(l);
+		return;
+	}
+	if(strcmp(l.tail->Data.hoTen,name)==0){
+		deleteTail(l);
+		return;
+	}
+	Node *q;
+	Node *p;
+	for(p=l.head;p!=NULL;p=p->Next){
+		if(strcmp(p->Data.hoTen,name)==0){
+			q->Next=p->Next;
+			delete p;
+			return;
+		}
+		q=p->Next;
+	}
+}
+void swap(int &x, int &y){
+	int z=x;
+	x=y;
+	y=z;	
+}
+void swapChar(char s1[32], char s2[32]){
+	char s3[32];
+	strcpy(s3,s1);
+	strcpy(s1,s2);
+	strcpy(s2,s3);
+}
+void sortList(list &l){
+	Node *p;
+	Node *q;
+	p=l.head;
+	while(p->Next!=NULL){
+		q=p->Next;
+		while(q!=NULL){
+			if(strcmp(p->Data.hoTen, q->Data.hoTen)>0){
+				swapChar(p->Data.hoTen, q->Data.hoTen);
+				swap(p->Data.Tuoi, q->Data.Tuoi);
+				swapChar(p->Data.Lop, q->Data.Lop);
+			}
+			q=q->Next;
+		}
+		p=p->Next;
+	}
+}
+int main(){
+	list l;
+	char name[32];
+	creatList(l);
+	int select;
+	do{
+		printf("\n1. Nhap danh sach sinh vien");
+		printf("\n2. Hien thi danh sach sinh vien");
+		printf("\n3. Tim kiem sinh vien theo ten");
+		printf("\n4. Sap xep sinh vien tang dan theo ten");
+		printf("\n5. Xoa sinh vien");
+		printf("\n6. Sua thong tin sinh vien");
+		printf("\n7. Them sinh vien vao danh sach");
+		printf("\n8. Thoat");
+		printf("\nMoi ban chon: ");
+		scanf("%d", &select);
+		switch(select){
+			case 1:
+				AddNewList(l);
+				break;
+			case 2:
+				PrintList(l); 
+				break;
+			case 3:
+				searchByName(l);
+				break;
+			case 4:
+				sortList(l);
+				PrintList(l);
+				break;
+			case 5:
+				printf("\nNhap ten sinh vien can xoa: ");
+				fflush(stdin);
+				gets(name);
+				deleteNode(l,name);
+				PrintList(l);
+				break;
+			case 6:
+				editList(l);
+				PrintList(l);
+				break;
+			case 7:
+				insertList(l);
+				PrintList(l);
+				break;
+			case 8:
+				return 0;
+			default: break;				
+		}
+	}while(1);
+}
